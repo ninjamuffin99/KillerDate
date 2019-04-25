@@ -12,7 +12,7 @@ using flixel.util.FlxStringUtil;
  * THE SEQUEL TO FLXTYPETEXT
  * 
  * Shitty homemade extension bullshit of FlxTypeText lmaooo
- * @author 
+ * @author ninjamuffin99
  */
 class TypeTextTwo extends FlxTypeText 
 {
