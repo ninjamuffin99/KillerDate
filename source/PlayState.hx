@@ -40,7 +40,7 @@ class PlayState extends FlxState
 	
 	override public function create():Void
 	{
-		super.create();
+		
 		
 		P = FLS.JSON.playstate;
 		
@@ -83,7 +83,7 @@ class PlayState extends FlxState
 		grpChoices = new FlxTypedGroup<FlxText>();
 		add(grpChoices);
 		
-		
+		super.create();
 	}
 	override public function update(elapsed:Float):Void
 	{
@@ -108,24 +108,28 @@ class PlayState extends FlxState
 					var choiceTxt:FlxText = new FlxText(183, (13 * i) + 28, 0, choice.text);
 					grpChoices.add(choiceTxt);
 					
-					#if mobile
 					if (FlxG.onMobile)
 					{
-						if (FlxG.touches.list[0].overlaps(choiceTxt))
+						for (touch in FlxG.touches.list)
 						{
-							if (curSelected == i)
+							if (touch.overlaps(choiceTxt) && touch.justPressed)
 							{
-								inkStory.ChooseChoiceIndex(curSelected);
-								inkStory.Continue();
-								autoText.start(inkStory.currentText);
-								
-								justSelected = true;
+								if (curSelected == i)
+								{
+									inkStory.ChooseChoiceIndex(curSelected);
+									inkStory.Continue();
+									autoText.resetText(inkStory.currentText);
+									autoText.start(null, true);
+									
+									justSelected = true;
+								}
+								else
+									curSelected = i;
 							}
-							else
-								curSelected = i;
 						}
+						
+						
 					}
-					#end
 				}
 				
 				
@@ -177,15 +181,18 @@ class PlayState extends FlxState
 		if (FlxG.keys.justPressed.SPACE)
 			tryAdvText = true;
 		
-		#if mobile
 		if (FlxG.onMobile)
 		{
-			if (FlxG.touches.list[0].y >= FlxG.height)
+			
+			for (touch in FlxG.touches.list)
 			{
-				tryAdvText = true;
+				if (touch.justPressed && touch.y >= autoText.y)
+				{
+					tryAdvText = true;
+				}
 			}
+
 		}
-		#end
 		
 		if (tryAdvText && !justSelected)
 		{
