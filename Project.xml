@@ -87,5 +87,5 @@
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
 	<!--<haxedef name="EXTERNAL_LOAD"/> -->
-	<!--<haxelib name="djflixel"/>-->
+	<haxelib name="djflixel"/>
 </project>
